@@ -48,3 +48,10 @@ cask "cleanshot"           # screenshots / recording
 
 cask "font-hack-nerd-font" # proper glyphs for starship
 cask "obsidian"            # local-first notes
+
+# =====================================
+# AI Dev Tools
+# =====================================
+
+cask "claude-code"
+cask "claude"  # desktop app
