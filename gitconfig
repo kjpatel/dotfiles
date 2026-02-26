@@ -1,0 +1,15 @@
+[user]
+  name = Kushan Patel
+  email = kushan.patel@gmail.com
+
+[init]
+  defaultBranch = main
+
+[pull]
+  rebase = false
+
+[push]
+  default = simple
+
+[core]
+  autocrlf = input

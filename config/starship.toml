@@ -1,0 +1,8 @@
+[directory]
+truncation_length = 0
+
+[git_branch]
+format = "[$branch]($style) "
+
+[git_status]
+disabled = false
