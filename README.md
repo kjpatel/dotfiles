@@ -76,4 +76,4 @@ To revert changes made by the installer:
 
 ## License
 
-No license specified.
+[MIT](LICENSE)
