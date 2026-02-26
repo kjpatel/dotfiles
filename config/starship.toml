@@ -1,8 +1,29 @@
+add_newline = true
+
+format = """
+$directory $git_branch$git_status
+$ruby$python$docker_context
+$character
+"""
+
 [directory]
 truncation_length = 0
 
 [git_branch]
-format = "[$branch]($style) "
+symbol = " "
 
 [git_status]
+ahead = "⇡${count}"
+behind = "⇣${count}"
+
+[status]
 disabled = false
+
+[ruby]
+symbol = "💎 "
+
+[python]
+format = "[py $version]($style)"
+
+[docker_context]
+format = "[🐳 $context]($style) "
