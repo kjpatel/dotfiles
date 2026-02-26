@@ -1,11 +1,11 @@
-# Prompt
-eval "$(starship init zsh)"
+# rbenv (set Ruby shims early)
+eval "$(rbenv init - zsh)"
 
-# Direnv
+# direnv (project env vars)
 eval "$(direnv hook zsh)"
+
+# Prompt (render last)
+eval "$(starship init zsh)"
 
 # Quality of life
 export EDITOR="code"
-
-# use rbenv
-eval "$(rbenv init - zsh)"
