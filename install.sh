@@ -24,12 +24,16 @@ link "$DOTFILES_DIR/gitconfig" "$HOME/.gitconfig"
 # Starship config
 link "$DOTFILES_DIR/config/starship.toml" "$HOME/.config/starship.toml"
 
-# Brew packages (optional: only runs if brew exists)
-if command -v brew >/dev/null 2>&1; then
-  echo "Running brew bundle..."
-  brew bundle --file "$DOTFILES_DIR/Brewfile"
-else
-  echo "Homebrew not found. Install it first, then run this script again."
+# Homebrew
+if ! command -v brew >/dev/null 2>&1; then
+  echo "Installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
+
+echo "Running brew bundle..."
+brew update
+brew bundle --file "$DOTFILES_DIR/Brewfile"
+brew upgrade --cask
+brew cleanup
 
 echo "Done. Restart your terminal."
