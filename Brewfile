@@ -26,9 +26,9 @@ brew "direnv"     # per-project environment variables (.envrc)
 # =====================================
 
 brew "python@3.14"  # scripting, tooling, experimentation
-brew "node"         # JavaScript runtime (npm, scripts, tooling)
-brew "rbenv"       # Ruby version manager
-brew "ruby-build"  # Install Ruby versions via rbenv
+brew "rbenv"        # Ruby version manager
+brew "ruby-build"   # Install Ruby versions via rbenv
+brew "fnm"			# Node verson manager
 
 # =====================================
 # Core GUI Applications
