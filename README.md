@@ -2,13 +2,16 @@
 
 Personal dotfiles for a minimal, reproducible macOS development environment.
 
+> **New here?** Check out the **[Learning Guide](LEARNING_GUIDE.md)** — a walkthrough of every tool in this repo with the commands worth knowing, power combos, and a suggested learning order.
+
 ## Contents
 
 - [Brewfile](Brewfile) — Homebrew package and cask list
+- [LEARNING_GUIDE.md](LEARNING_GUIDE.md) — Tool-by-tool guide with commands, tips, and workflows
 - [install.sh](install.sh) — Installer script that creates symlinks and provisions Homebrew
 - [gitconfig](gitconfig) — Git config
 - [zprofile](zprofile) — Login shell profile (Homebrew shellenv)
-- [zshrc](zshrc) — Interactive shell config (rbenv, direnv, starship)
+- [zshrc](zshrc) — Interactive shell config (fnm, rbenv, direnv, starship)
 - [config/starship.toml](config/starship.toml) — Starship prompt configuration
 
 ## Overview
