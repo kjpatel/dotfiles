@@ -22,6 +22,12 @@ brew "starship"   # modern cross-shell prompt
 brew "direnv"     # per-project environment variables (.envrc)
 
 # =====================================
+# Cloud & Infrastructure
+# =====================================
+
+brew "awscli"     # AWS CLI (S3, EC2, IAM, and more)
+
+# =====================================
 # Language Runtime
 # =====================================
 
