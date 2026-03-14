@@ -56,6 +56,20 @@ The script will install Homebrew if it is not present, then run:
 - Modify [Brewfile](Brewfile) to change installed packages and casks.
 - Update [gitconfig](gitconfig), [zprofile](zprofile), and [zshrc](zshrc) as desired.
 
+## Git Helpers
+
+The shell config includes a `gcma` helper for AI-generated commit messages from staged changes.
+
+```sh
+git add .
+gcma
+gcma claude
+```
+
+- `gcma` defaults to Codex.
+- `gcma claude` uses Claude Code instead.
+- Supported values are `codex`, `claude`, and `claude-code`.
+
 ## Revert / Uninstall
 
 To revert changes made by the installer:

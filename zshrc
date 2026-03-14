@@ -15,5 +15,22 @@ export EDITOR="code"
 
 # Git helpers
 gcma() {
-  git commit -m "$(codex exec 'Look at the staged git changes only and write a concise commit message in imperative mood. Return only the commit message.')"
+  local ai_tool="${1:-codex}"
+  local prompt="Look at the staged git changes only and write a concise commit message in imperative mood. Return only the commit message."
+  local message
+
+  case "$ai_tool" in
+    codex)
+      message="$(codex exec "$prompt")"
+      ;;
+    claude|claude-code)
+      message="$(claude -p "$prompt")"
+      ;;
+    *)
+      echo "Usage: gcma [codex|claude]" >&2
+      return 1
+      ;;
+  esac
+
+  git commit -m "$message"
 }
