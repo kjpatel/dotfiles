@@ -67,6 +67,7 @@ To revert changes made by the installer:
 
 - The prompt relies on [starship](Brewfile) and its config at [config/starship.toml](config/starship.toml).
 - [zshrc](zshrc) initializes `rbenv`, `direnv`, and `starship`.
+- AWS CLI (`awscli`) is included for interacting with AWS services (S3, EC2, IAM, etc.). Configure with `aws configure`.
 
 ## Files & Symbols
 

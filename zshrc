@@ -12,3 +12,8 @@ eval "$(starship init zsh)"
 
 # Quality of life
 export EDITOR="code"
+
+# Git helpers
+gcma() {
+  git commit -m "$(codex exec 'Look at the staged git changes only and write a concise commit message in imperative mood. Return only the commit message.')"
+}

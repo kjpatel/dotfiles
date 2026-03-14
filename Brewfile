@@ -31,7 +31,7 @@ brew "awscli"     # AWS CLI (S3, EC2, IAM, and more)
 # Language Runtime
 # =====================================
 
-brew "python@3.14"  # scripting, tooling, experimentation
+brew "python@3.14"  # scripting, tooling, experimentation (includes venv)
 brew "rbenv"        # Ruby version manager
 brew "ruby-build"   # Install Ruby versions via rbenv
 brew "fnm"			# Node verson manager
@@ -59,5 +59,7 @@ cask "obsidian"            # local-first notes
 # AI Dev Tools
 # =====================================
 
-cask "claude-code"
-cask "claude"  # desktop app
+cask "claude-code" # Anthropic's cli
+cask "codex" # Open AI's cli
+cask "claude"  # Anthropics desktop app
+cask "chatgpt" # Open AI's desktop app

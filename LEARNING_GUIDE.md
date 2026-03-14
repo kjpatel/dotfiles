@@ -207,6 +207,45 @@ ruby -v                        # verify the active version
 
 ---
 
+## Cloud & Infrastructure
+
+### `awscli` — AWS Command Line Interface
+
+Interact with AWS services directly from the terminal. Set up once, use everywhere:
+
+```sh
+aws configure                  # set your access key, secret, region (do this first)
+aws configure list             # verify current credentials
+aws sts get-caller-identity    # confirm who you're authenticated as
+```
+
+**S3 — File Storage**
+
+```sh
+aws s3 ls                      # list all your S3 buckets
+aws s3 ls s3://bucket-name/    # list files in a bucket
+aws s3 cp file.txt s3://bucket-name/path/  # upload a file
+aws s3 cp s3://bucket-name/path/file.txt . # download a file
+aws s3 sync ./local-dir s3://bucket-name/  # sync a folder to S3
+```
+
+**Useful for PMs**
+
+```sh
+# See recent activity in a bucket (useful for checking if uploads are landing)
+aws s3 ls s3://bucket-name/ --recursive --human-readable | sort | tail -20
+
+# Check what environment variables are set for a Lambda function
+aws lambda get-function-configuration --function-name my-function | jq '.Environment'
+
+# List all EC2 instances and their states
+aws ec2 describe-instances | jq '.Reservations[].Instances[] | {id: .InstanceId, state: .State.Name}'
+```
+
+**PM tip**: Credentials live in `~/.aws/credentials`. Use `direnv` with per-project `.envrc` files to switch between AWS accounts/roles without overwriting your global config.
+
+---
+
 ## GUI Applications
 
 ### iTerm2 — Terminal Emulator
@@ -402,4 +441,5 @@ Start with the tools that give you the biggest daily productivity gains:
 | 9 | **ripgrep + bat + fd** | Replace grep/cat/find for a noticeably better terminal experience |
 | 10 | **direnv** | Once you have multiple projects, saves constant manual setup |
 | 11 | **TablePlus + SQL** | Pull your own data directly — a PM superpower |
-| 12 | **fnm / rbenv** | Only relevant when working on Node or Ruby projects |
+| 12 | **awscli** | Query S3, Lambda, and EC2 without bothering an engineer |
+| 13 | **fnm / rbenv** | Only relevant when working on Node or Ruby projects |
