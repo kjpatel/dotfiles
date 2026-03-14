@@ -56,6 +56,17 @@ git log --oneline --graph      # visualize branch history
 
 **PM tip**: `git log --oneline --since="1 week ago"` is great for checking what shipped recently.
 
+If you want help writing commit messages for staged changes, your shell config includes `gcma`:
+
+```sh
+git add .
+gcma                         # use Codex (default)
+gcma claude                  # use Claude Code
+gcma claude-code             # same as above
+```
+
+It reads staged changes and asks the selected CLI to return a concise commit message.
+
 ### `gh` — GitHub CLI
 
 Manage GitHub without leaving the terminal:
@@ -156,6 +167,16 @@ direnv allow                   # activate (one-time per .envrc change)
 
 Already hooked into your shell via [zshrc](zshrc). Add `.envrc` to your global gitignore so secrets don't leak.
 
+For Python projects, `direnv` pairs nicely with `venv`:
+
+```sh
+python3 -m venv .venv
+echo 'source .venv/bin/activate' > .envrc
+direnv allow
+```
+
+That gives you automatic virtual environment activation when you enter the project directory.
+
 ---
 
 ## Language Runtimes
@@ -170,6 +191,8 @@ pip install package-name       # install a library
 pip freeze > requirements.txt  # snapshot dependencies
 deactivate                     # leave the virtual environment
 ```
+
+`venv` is included with Python, so you do not need a separate Homebrew package for it.
 
 **PM tip**: Always use a venv for each project. It prevents package conflicts and makes projects reproducible.
 
@@ -354,6 +377,19 @@ Invest time in linking notes. The graph view becomes valuable once you have 50+ 
 
 ## AI Dev Tools
 
+### Codex
+
+An agentic coding CLI from OpenAI that runs in your terminal:
+
+```sh
+codex                         # start an interactive session
+codex "explain this codebase" # start with a prompt
+codex exec "summarize the staged diff"
+codex --help
+```
+
+Useful for: repo-aware code changes, explanations, reviews, and terminal-native workflows like AI-generated commit messages.
+
 ### Claude Code
 
 An agentic coding tool that runs in your terminal:
@@ -365,6 +401,10 @@ claude --help                  # see all options
 ```
 
 Useful for: writing boilerplate, understanding unfamiliar codebases, writing tests, refactoring, and automating tedious tasks.
+
+### ChatGPT Desktop App
+
+General-purpose desktop AI app from OpenAI. Good for writing, planning, brainstorming, research, and quick Q&A outside a repo-focused terminal workflow.
 
 ### Claude Desktop App
 
@@ -421,6 +461,12 @@ This dotfiles repo configures your shell in two stages:
 - Two-line layout with `┌/└` brackets
 
 To customize, edit these files and open a new terminal to see changes.
+
+If the installer leaves backup files behind while relinking dotfiles, you can remove current-directory backups with:
+
+```sh
+find . -maxdepth 1 \( -type f -o -type l \) -name '*.bak.*' -delete
+```
 
 ---
 
