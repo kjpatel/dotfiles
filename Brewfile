@@ -26,41 +26,53 @@ brew "direnv"     # per-project environment variables (.envrc)
 # =====================================
 
 brew "awscli"     # AWS CLI (S3, EC2, IAM, and more)
+brew "supabase/tap/supabase" # Supabase CLI
 
 # =====================================
-# Language Runtime
+# Language Runtimes & Package Managers
 # =====================================
 
 brew "python@3.14"  # scripting, tooling, experimentation (includes venv)
 brew "rbenv"        # Ruby version manager
 brew "ruby-build"   # Install Ruby versions via rbenv
-brew "fnm"			# Node verson manager
+brew "fnm"          # Node version manager
+brew "node"         # Node.js runtime
+brew "pnpm"         # fast, disk-efficient package manager
+
+# =====================================
+# Editors & IDEs
+# =====================================
+
+cask "sublime-text"        # lightweight editor
+cask "visual-studio-code"  # primary editor
+cask "cursor"              # AI-native code editor
+cask "zed"                 # GPU-accelerated code editor
 
 # =====================================
 # Core GUI Applications
 # =====================================
 
 cask "iterm2"              # terminal emulator
-cask "sublime-text"        # lightweight editor
-cask "visual-studio-code"  # primary editor
 cask "docker-desktop"      # containers for local services
 cask "raycast"             # launcher + window mgmt + clipboard
 cask "tableplus"           # database GUI
+cask "github"              # GitHub Desktop
+cask "postman"             # API testing
 cask "cleanshot"           # screenshots / recording
 
 # =====================================
-# Optional / Quality of Life
+# AI Assistants
+# =====================================
+
+cask "claude"      # Anthropic's desktop app
+cask "claude-code" # Anthropic's CLI
+cask "codex"       # OpenAI's CLI
+cask "chatgpt"     # OpenAI's desktop app
+
+# =====================================
+# Fonts & Quality of Life
 # =====================================
 
 cask "font-hack-nerd-font" # proper glyphs for starship
+cask "font-lato"           # Lato font family
 cask "obsidian"            # local-first notes
-
-# =====================================
-# AI Dev Tools
-# =====================================
-
-cask "claude-code" # Anthropic's cli
-cask "codex" # Open AI's cli
-cask "cursor" # AI-native code editor
-cask "claude"  # Anthropics desktop app
-cask "chatgpt" # Open AI's desktop app
