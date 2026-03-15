@@ -61,5 +61,6 @@ cask "obsidian"            # local-first notes
 
 cask "claude-code" # Anthropic's cli
 cask "codex" # Open AI's cli
+cask "cursor" # AI-native code editor
 cask "claude"  # Anthropics desktop app
 cask "chatgpt" # Open AI's desktop app

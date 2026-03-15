@@ -44,6 +44,26 @@ The script will install Homebrew if it is not present, then run:
 - `brew upgrade --cask`
 - `brew cleanup`
 
+## Updating Packages
+
+You don't need to rerun the full installer just to pick up Brewfile changes. From the repo directory:
+
+```sh
+brew bundle --file Brewfile
+```
+
+This installs anything new in the Brewfile. To also remove packages you've deleted from it:
+
+```sh
+brew bundle --file Brewfile --cleanup
+```
+
+For a full machine refresh (relink configs, update Homebrew, upgrade casks, clean up), run the installer instead:
+
+```sh
+bash ./install.sh
+```
+
 ## Behavior & Safety
 
 - Existing destination files are moved to a timestamped backup: `file -> file.bak.<epoch>`
