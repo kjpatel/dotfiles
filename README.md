@@ -82,12 +82,15 @@ The shell config includes a `gcma` helper for AI-generated commit messages from 
 
 ```sh
 git add .
-gcma
-gcma claude
+gcma                          # uses your saved default agent
+gcma claude                   # override with Claude Code
+gcma codex                    # override with Codex
+gcma --set-default claude     # change the saved default
 ```
 
-- `gcma` defaults to Codex.
-- `gcma claude` uses Claude Code instead.
+- On first run, `gcma` prompts you to choose an agent (claude or codex) and saves it as the default in `~/.config/gcma/default_agent`.
+- Pass an agent name to override the default for a single run.
+- Use `gcma --set-default <agent>` to change the saved default anytime.
 - Supported values are `codex`, `claude`, and `claude-code`.
 
 ## Revert / Uninstall

@@ -60,12 +60,13 @@ If you want help writing commit messages for staged changes, your shell config i
 
 ```sh
 git add .
-gcma                         # use Codex (default)
-gcma claude                  # use Claude Code
-gcma claude-code             # same as above
+gcma                         # uses your saved default agent
+gcma claude                  # override with Claude Code
+gcma codex                   # override with Codex
+gcma --set-default claude    # change the saved default
 ```
 
-It reads staged changes and asks the selected CLI to return a concise commit message.
+On first run, `gcma` prompts you to pick an agent (claude or codex) and remembers your choice in `~/.config/gcma/default_agent`. It reads staged changes and asks the selected CLI to return a concise commit message.
 
 ### `gh` — GitHub CLI
 
