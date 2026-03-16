@@ -13,49 +13,145 @@ eval "$(starship init zsh)"
 # Quality of life
 export EDITOR="code"
 
+# AI agent shared config
+_ai_config_file="$HOME/.config/gcma/default_agent"
+
+_ai_resolve_agent() {
+  # Resolve which AI agent to use: explicit arg > saved default > prompt user
+  local ai_tool="$1"
+  if [[ -n "$ai_tool" ]]; then
+    echo "$ai_tool"
+    return
+  fi
+  if [[ -f "$_ai_config_file" ]]; then
+    cat "$_ai_config_file"
+    return
+  fi
+  echo "No default AI agent set. Choose one (claude/codex) [claude]:" >&2
+  read -r choice
+  ai_tool="${choice:-claude}"
+  mkdir -p "$(dirname "$_ai_config_file")"
+  echo "$ai_tool" > "$_ai_config_file"
+  echo "Saved '$ai_tool' as default. Change anytime with: gcma --set-default <agent>" >&2
+  echo "$ai_tool"
+}
+
+_ai_run() {
+  # Run a prompt through the resolved AI agent, printing the result to stdout
+  local ai_tool="$1"
+  local prompt="$2"
+  local input="$3"
+
+  case "$ai_tool" in
+    codex)
+      if [[ -n "$input" ]]; then
+        echo "$input" | codex exec "$prompt"
+      else
+        codex exec "$prompt"
+      fi
+      ;;
+    claude|claude-code)
+      if [[ -n "$input" ]]; then
+        echo "$input" | claude -p "$prompt"
+      else
+        claude -p "$prompt"
+      fi
+      ;;
+    *)
+      echo "Unknown agent '$ai_tool'. Use codex or claude." >&2
+      return 1
+      ;;
+  esac
+}
+
 # Git helpers
 gcma() {
-  local config_file="$HOME/.config/gcma/default_agent"
-  local ai_tool="$1"
-
   # Allow changing the default
-  if [[ "$ai_tool" == "--set-default" ]]; then
+  if [[ "$1" == "--set-default" ]]; then
     local new_default="${2:?Usage: gcma --set-default <codex|claude>}"
-    mkdir -p "$(dirname "$config_file")"
-    echo "$new_default" > "$config_file"
+    mkdir -p "$(dirname "$_ai_config_file")"
+    echo "$new_default" > "$_ai_config_file"
     echo "Default agent set to '$new_default'."
     return 0
   fi
 
-  # If no argument, read saved default or prompt on first run
-  if [[ -z "$ai_tool" ]]; then
-    if [[ -f "$config_file" ]]; then
-      ai_tool="$(cat "$config_file")"
-    else
-      echo "No default AI agent set. Choose one (claude/codex) [claude]:"
-      read -r choice
-      ai_tool="${choice:-claude}"
-      mkdir -p "$(dirname "$config_file")"
-      echo "$ai_tool" > "$config_file"
-      echo "Saved '$ai_tool' as default. Change anytime with: gcma --set-default <agent>"
-    fi
-  fi
+  local ai_tool
+  ai_tool="$(_ai_resolve_agent "$1")" || return 1
 
   local prompt="Look at the staged git changes only and write a concise commit message in imperative mood. Return only the commit message."
   local message
-
-  case "$ai_tool" in
-    codex)
-      message="$(codex exec "$prompt")"
-      ;;
-    claude|claude-code)
-      message="$(claude -p "$prompt")"
-      ;;
-    *)
-      echo "Usage: gcma [codex|claude]" >&2
-      return 1
-      ;;
-  esac
+  message="$(_ai_run "$ai_tool" "$prompt")" || return 1
 
   git commit -m "$message"
+}
+
+gpr() {
+  local base="${1:-main}"
+  local commits
+  commits="$(git log "$base"..HEAD --oneline 2>/dev/null)"
+
+  if [[ -z "$commits" ]]; then
+    echo "No commits ahead of $base." >&2
+    return 1
+  fi
+
+  local ai_tool
+  ai_tool="$(_ai_resolve_agent)" || return 1
+
+  local prompt="You are looking at git commits for a pull request. Write a JSON object with two keys: \"title\" (concise, under 70 chars, imperative mood) and \"body\" (a markdown summary with a ## Summary section containing 1-3 bullet points). Return only valid JSON, no code fences."
+  local diff_summary
+  diff_summary="$(git log "$base"..HEAD --pretty=format:'%s' | head -20)"
+
+  local result
+  result="$(_ai_run "$ai_tool" "$prompt" "$diff_summary")" || return 1
+
+  local title body
+  title="$(echo "$result" | jq -r '.title // empty')"
+  body="$(echo "$result" | jq -r '.body // empty')"
+
+  if [[ -z "$title" ]]; then
+    echo "Failed to generate PR metadata. Creating PR interactively." >&2
+    gh pr create --base "$base"
+    return
+  fi
+
+  gh pr create --base "$base" --title "$title" --body "$body"
+}
+
+proj() {
+  # Fuzzy-find and cd into a project directory
+  local search_root="${1:-$HOME}"
+  local dir
+  dir="$(fd -t d --max-depth 3 --hidden --exclude .git . "$search_root" | fzf --preview 'ls -1 {}')"
+  if [[ -n "$dir" ]]; then
+    cd "$dir" || return 1
+  fi
+}
+
+port() {
+  # Show what's running on a given port
+  if [[ -z "$1" ]]; then
+    echo "Usage: port <number>" >&2
+    return 1
+  fi
+  lsof -i :"$1"
+}
+
+cleanup-bak() {
+  # Remove backup files created by install.sh
+  for f in ~/.zprofile ~/.zshrc ~/.gitconfig ~/.config/starship.toml; do
+    find "$(dirname "$f")" -maxdepth 1 -name "$(basename "$f").bak.*" -print -delete
+  done
+}
+
+dotup() {
+  # Pull latest dotfiles, run brew bundle, and re-source zshrc
+  local dotdir="${DOTFILES_DIR:-$HOME/.dotfiles}"
+  echo "Pulling latest dotfiles..."
+  git -C "$dotdir" pull || { echo "git pull failed" >&2; return 1; }
+  echo "Running brew bundle..."
+  brew bundle --file "$dotdir/Brewfile"
+  echo "Re-sourcing zshrc..."
+  source "$HOME/.zshrc"
+  echo "Done."
 }

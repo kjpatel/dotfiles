@@ -68,6 +68,15 @@ gcma --set-default claude    # change the saved default
 
 On first run, `gcma` prompts you to pick an agent (claude or codex) and remembers your choice in `~/.config/gcma/default_agent`. It reads staged changes and asks the selected CLI to return a concise commit message.
 
+Your shell also includes `gpr` for creating pull requests with AI-generated titles and descriptions:
+
+```sh
+gpr                          # create PR against main with AI-generated title/body
+gpr develop                  # create PR against a different base branch
+```
+
+`gpr` shares the same default agent as `gcma` (stored in `~/.config/gcma/default_agent`). If no default is saved, it prompts you to choose one. The agent summarizes your commits, then `gh pr create` is called with the generated title and markdown body. If AI generation fails, it falls back to the interactive `gh pr create` flow.
+
 ### `gh` — GitHub CLI
 
 Manage GitHub without leaving the terminal:
@@ -507,6 +516,46 @@ fd -t f -x stat -f '%z %N' {} | sort -rn | head -20
 
 ---
 
+## Shell Helpers
+
+Your [zshrc](zshrc) includes several custom functions beyond `gcma`:
+
+### `proj` — Fuzzy Project Switcher
+
+Jump into any project directory with fuzzy search:
+
+```sh
+proj                         # search from $HOME (up to 3 levels deep)
+proj ~/Projects              # narrow the search to a specific root
+```
+
+Uses `fd` to list directories and `fzf` for interactive selection with a file preview.
+
+**PM tip**: If you keep all your repos under `~/Projects`, `proj ~/Projects` gets you into any project in under two seconds.
+
+### `port` — Port Inspector
+
+Find out what's using a given port:
+
+```sh
+port 3000                    # see what's running on port 3000
+port 8080                    # check if your API server is up
+```
+
+**PM tip**: When `npm run dev` says "port already in use", run `port 3000` to find the culprit.
+
+### `dotup` — Update Dotfiles
+
+Pull the latest dotfiles, run `brew bundle`, and re-source your shell — all in one command:
+
+```sh
+dotup
+```
+
+Useful when you push dotfile changes from another machine or update the Brewfile.
+
+---
+
 ## Understanding Your Shell Config
 
 This dotfiles repo configures your shell in two stages:
@@ -520,6 +569,7 @@ This dotfiles repo configures your shell in two stages:
 - `direnv` — per-project env vars
 - `starship` — prompt (rendered last so it can detect everything above)
 - Sets VS Code as default `$EDITOR`
+- Shell helpers: `gcma`, `gpr`, `proj`, `port`, `cleanup-bak`, `dotup`
 
 **[config/starship.toml](config/starship.toml)** controls your prompt:
 - Left side: directory, git branch, git status, command duration
@@ -528,11 +578,13 @@ This dotfiles repo configures your shell in two stages:
 
 To customize, edit these files and open a new terminal to see changes.
 
-If the installer leaves backup files behind while relinking dotfiles, you can remove current-directory backups with:
+If the installer leaves backup files behind while relinking dotfiles, use the `cleanup-bak` shell helper:
 
 ```sh
-find . -maxdepth 1 \( -type f -o -type l \) -name '*.bak.*' -delete
+cleanup-bak                  # prints and deletes each backup file
 ```
+
+This only removes backups for the exact files `install.sh` manages (`.zprofile`, `.zshrc`, `.gitconfig`, `starship.toml`).
 
 ---
 

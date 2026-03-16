@@ -76,9 +76,11 @@ bash ./install.sh
 - Modify [Brewfile](Brewfile) to change installed packages and casks.
 - Update [gitconfig](gitconfig), [zprofile](zprofile), and [zshrc](zshrc) as desired.
 
-## Git Helpers
+## Shell Helpers
 
-The shell config includes a `gcma` helper for AI-generated commit messages from staged changes.
+The shell config in [zshrc](zshrc) includes several helper functions:
+
+### `gcma` — AI Commit Messages
 
 ```sh
 git add .
@@ -92,6 +94,53 @@ gcma --set-default claude     # change the saved default
 - Pass an agent name to override the default for a single run.
 - Use `gcma --set-default <agent>` to change the saved default anytime.
 - Supported values are `codex`, `claude`, and `claude-code`.
+
+### `gpr` — AI Pull Requests
+
+Creates a GitHub PR with an AI-generated title and description from your commit history.
+
+```sh
+gpr                           # create PR against main
+gpr develop                   # create PR against a different base branch
+```
+
+Uses the same default AI agent as `gcma` (set via `gcma --set-default <agent>`). If no default is saved, it prompts you to choose one on first run. The agent summarizes your commits into a concise title and markdown body, then calls `gh pr create`.
+
+### `proj` — Fuzzy Project Switcher
+
+Fuzzy-find and `cd` into a project directory using `fd` + `fzf`.
+
+```sh
+proj                          # search from $HOME
+proj ~/Projects               # search from a specific root
+```
+
+### `port` — Port Inspector
+
+Show what process is using a given port.
+
+```sh
+port 3000                     # see what's running on port 3000
+port 8080                     # check port 8080
+```
+
+### `cleanup-bak` — Remove Installer Backups
+
+Remove the `*.bak.*` backup files that `install.sh` creates when relinking dotfiles.
+
+```sh
+cleanup-bak                   # prints and deletes each backup file
+```
+
+Only targets the exact files `install.sh` would back up (`.zprofile`, `.zshrc`, `.gitconfig`, `starship.toml`).
+
+### `dotup` — Update Dotfiles
+
+Pull the latest dotfiles, run `brew bundle`, and re-source your shell config in one command.
+
+```sh
+dotup
+```
 
 ## Revert / Uninstall
 
