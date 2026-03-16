@@ -208,21 +208,24 @@ fnm default 22                 # set as default
 node -v                        # verify active version
 ```
 
-Common Node/npm commands:
+Common Node/npm/pnpm commands:
 
 ```sh
 node script.js                 # run a script
 npm install                    # install dependencies from package.json
 npm run dev                    # common command to start a dev server
 npx tool-name                  # run a package without installing globally
+pnpm install                   # faster, disk-efficient alternative to npm install
+pnpm add package-name          # add a dependency
+pnpm dlx tool-name             # pnpm equivalent of npx
 ```
 
-### `rbenv` — Ruby Version Manager
+### `rbenv` + `ruby-build` — Ruby Version Manager
 
-Already configured in [zshrc](zshrc):
+Already configured in [zshrc](zshrc). `ruby-build` is installed alongside `rbenv` so `rbenv install` works out of the box:
 
 ```sh
-rbenv install 3.3.0            # install a Ruby version
+rbenv install 3.3.0            # install a Ruby version (via ruby-build)
 rbenv global 3.3.0             # set the default version
 rbenv local 3.3.0              # set version for the current project
 ruby -v                        # verify the active version
@@ -266,6 +269,20 @@ aws ec2 describe-instances | jq '.Reservations[].Instances[] | {id: .InstanceId,
 ```
 
 **PM tip**: Credentials live in `~/.aws/credentials`. Use `direnv` with per-project `.envrc` files to switch between AWS accounts/roles without overwriting your global config.
+
+### `supabase` — Supabase CLI
+
+Manage Supabase projects (Postgres, Auth, Edge Functions) from the terminal:
+
+```sh
+supabase init                  # initialize a new Supabase project locally
+supabase start                 # start local Supabase stack (Postgres, Auth, etc.)
+supabase stop                  # stop local stack
+supabase db reset              # reset local database to migrations
+supabase migration new name    # create a new migration
+supabase status                # check local service status
+supabase link --project-ref x  # link to a remote Supabase project
+```
 
 ---
 
@@ -313,17 +330,37 @@ subl .                         # open current directory as project
 
 Same essential shortcuts as VS Code (`Cmd+P`, `Cmd+Shift+P`).
 
-### Raycast — Launcher & Productivity Hub
+### Cursor — AI-Native Editor
 
-Replaces Spotlight:
+A VS Code fork with built-in AI features. Same shortcuts and extensions as VS Code, plus:
+
+- `Cmd+K` — inline AI edit
+- `Cmd+L` — open AI chat panel
+- Tab completion with AI suggestions
+
+If you already know VS Code, Cursor feels immediately familiar.
+
+### Zed — GPU-Accelerated Editor
+
+A fast, minimal editor built in Rust. Worth trying if VS Code feels sluggish:
+
+```sh
+zed file.txt                   # open a file
+zed .                          # open current directory
+```
+
+Key shortcuts mirror VS Code (`Cmd+P`, `Cmd+Shift+P`). Built-in AI assistant and collaboration features.
+
+### Raycast — Launcher (Nice-to-Have)
+
+A Spotlight replacement with extras. Not essential to get started, but convenient once you're settled in:
 
 - **`Option+Space`** — open Raycast
 - Type an app name to launch it
-- `clip` — clipboard history (huge time saver)
+- `clip` — clipboard history
 - `window` — manage window layouts
-- `calc` — quick calculator
 
-Explore the Raycast Store for extensions. Jira, GitHub, Linear, and Notion integrations are particularly useful for PMs.
+The Raycast Store has extensions for Jira, GitHub, Linear, etc. Worth exploring later.
 
 ### TablePlus — Database GUI
 
@@ -340,6 +377,27 @@ SELECT status, COUNT(*) FROM orders GROUP BY status;
 - Use the filter bar to query without writing SQL
 
 **PM tip**: Being able to pull your own data without asking an engineer is a superpower. Start with simple `SELECT` queries.
+
+### GitHub Desktop — Git GUI
+
+Visual interface for Git — useful when diffs or merge conflicts are easier to handle visually:
+
+- Stage/unstage changes with checkboxes
+- View diffs side-by-side
+- Create branches and PRs without the CLI
+
+**PM tip**: If the `git` CLI feels intimidating, GitHub Desktop is a gentler way to start.
+
+### Postman — API Testing
+
+Visual tool for building and testing API requests:
+
+- Create and save HTTP requests (GET, POST, PUT, DELETE)
+- Organize requests into collections
+- Inspect response bodies, headers, and status codes
+- Share collections with your team
+
+**PM tip**: Ask an engineer to share their Postman collection — it's the fastest way to understand your team's API surface.
 
 ### Docker Desktop — Containers
 
@@ -372,6 +430,13 @@ Invest time in linking notes. The graph view becomes valuable once you have 50+ 
 - `Ctrl+Shift+3` (configurable) — screenshot with annotation tools
 - `Ctrl+Shift+5` — screen recording
 - Scrolling capture for long pages is a standout feature
+
+### Fonts
+
+The Brewfile installs two fonts:
+
+- **Hack Nerd Font** — monospace font with icon glyphs required by Starship and other terminal tools. Set this as your font in iTerm2/VS Code/Cursor for proper prompt rendering.
+- **Lato** — clean sans-serif for presentations and documents.
 
 ---
 
@@ -476,16 +541,16 @@ Start with the tools that give you the biggest daily productivity gains:
 
 | Priority | Tool | Why |
 |----------|------|-----|
-| 1 | **Raycast** | Immediate daily productivity gain, zero learning curve |
-| 2 | **git + gh** | Critical for working with engineers — learn the commands above cold |
-| 3 | **fzf** | `Ctrl+R` alone will change how you use the terminal |
-| 4 | **VS Code shortcuts** | `Cmd+P` and `Cmd+Shift+P` are transformative |
-| 5 | **jq** | Once you start working with APIs, this is indispensable |
-| 6 | **Claude Code** | Accelerates everything else on this list |
-| 7 | **Obsidian** | Invest time linking notes — the graph view pays off over months |
-| 8 | **Docker basics** | Enough to run local services without needing an engineer |
-| 9 | **ripgrep + bat + fd** | Replace grep/cat/find for a noticeably better terminal experience |
-| 10 | **direnv** | Once you have multiple projects, saves constant manual setup |
-| 11 | **TablePlus + SQL** | Pull your own data directly — a PM superpower |
-| 12 | **awscli** | Query S3, Lambda, and EC2 without bothering an engineer |
-| 13 | **fnm / rbenv** | Only relevant when working on Node or Ruby projects |
+| 1 | **git + gh** | Critical for working with engineers — learn the commands above cold |
+| 2 | **fzf** | `Ctrl+R` alone will change how you use the terminal |
+| 3 | **VS Code shortcuts** | `Cmd+P` and `Cmd+Shift+P` are transformative |
+| 4 | **jq** | Once you start working with APIs, this is indispensable |
+| 5 | **Claude Code** | Accelerates everything else on this list |
+| 6 | **Obsidian** | Invest time linking notes — the graph view pays off over months |
+| 7 | **Docker basics** | Enough to run local services without needing an engineer |
+| 8 | **ripgrep + bat + fd** | Replace grep/cat/find for a noticeably better terminal experience |
+| 9 | **direnv** | Once you have multiple projects, saves constant manual setup |
+| 10 | **TablePlus + SQL** | Pull your own data directly — a PM superpower |
+| 11 | **awscli** | Query S3, Lambda, and EC2 without bothering an engineer |
+| 12 | **fnm / rbenv** | Only relevant when working on Node or Ruby projects |
+| 13 | **Raycast** | Nice-to-have Spotlight replacement — explore once you're comfortable |

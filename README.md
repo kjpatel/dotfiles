@@ -102,6 +102,10 @@ To revert changes made by the installer:
 - The prompt relies on [starship](Brewfile) and its config at [config/starship.toml](config/starship.toml).
 - [zshrc](zshrc) initializes `rbenv`, `direnv`, and `starship`.
 - AWS CLI (`awscli`) is included for interacting with AWS services (S3, EC2, IAM, etc.). Configure with `aws configure`.
+- Supabase CLI is included for local development and managing Supabase projects.
+- `pnpm` is included as a fast, disk-efficient alternative to `npm`.
+- Editors: VS Code (primary), Sublime Text, Cursor, and Zed are all installed via casks.
+- Hack Nerd Font is installed for proper Starship prompt glyphs — set it as your terminal font.
 
 ## Files & Symbols
 
