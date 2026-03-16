@@ -76,6 +76,16 @@ bash ./install.sh
 - Modify [Brewfile](Brewfile) to change installed packages and casks.
 - Update [gitconfig](gitconfig), [zprofile](zprofile), and [zshrc](zshrc) as desired.
 
+## Shell Aliases
+
+The shell config exports `CLICOLOR=1` for colorized `ls` output on macOS and defines handy aliases:
+
+| Alias | Command | Description |
+|-------|---------|-------------|
+| `ll`  | `ls -lhaG` | Long listing, human sizes, hidden files, color |
+| `la`  | `ls -aG`   | Hidden files, compact |
+| `l`   | `ls -G`    | Quick color listing |
+
 ## Shell Helpers
 
 The shell config in [zshrc](zshrc) includes several helper functions:
@@ -152,7 +162,7 @@ To revert changes made by the installer:
 ## Notes
 
 - The prompt relies on [starship](Brewfile) and its config at [config/starship.toml](config/starship.toml).
-- [zshrc](zshrc) initializes `rbenv`, `direnv`, and `starship`.
+- [zshrc](zshrc) initializes `rbenv`, `direnv`, and `starship`, exports `CLICOLOR`, and defines `ll`/`la`/`l` aliases.
 - AWS CLI (`awscli`) is included for interacting with AWS services (S3, EC2, IAM, etc.). Configure with `aws configure`.
 - Supabase CLI is included for local development and managing Supabase projects.
 - `pnpm` is included as a fast, disk-efficient alternative to `npm`.

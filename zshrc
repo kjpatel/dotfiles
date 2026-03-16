@@ -12,6 +12,11 @@ eval "$(starship init zsh)"
 
 # Quality of life
 export EDITOR="code"
+export CLICOLOR=1              # always colorize ls output (macOS)
+
+alias ll='ls -lhaG'            # long listing, human sizes, hidden files, color
+alias la='ls -aG'              # hidden files, compact
+alias l='ls -G'                # quick color listing
 
 # AI agent shared config
 _ai_config_file="$HOME/.config/gcma/default_agent"

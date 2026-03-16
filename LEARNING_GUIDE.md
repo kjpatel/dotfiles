@@ -569,6 +569,8 @@ This dotfiles repo configures your shell in two stages:
 - `direnv` — per-project env vars
 - `starship` — prompt (rendered last so it can detect everything above)
 - Sets VS Code as default `$EDITOR`
+- Exports `CLICOLOR=1` for colorized `ls` on macOS
+- Aliases: `ll` (long listing), `la` (hidden files), `l` (quick listing)
 - Shell helpers: `gcma`, `gpr`, `proj`, `port`, `cleanup-bak`, `dotup`
 
 **[config/starship.toml](config/starship.toml)** controls your prompt:
