@@ -32,6 +32,7 @@ brew "supabase/tap/supabase" # Supabase CLI
 # Language Runtimes & Package Managers
 # =====================================
 
+brew "uv"           # fast Python package manager & venv tool (used by Granite Harbor)
 brew "python@3.14"  # scripting, tooling, experimentation (includes venv)
 brew "rbenv"        # Ruby version manager
 brew "ruby-build"   # Install Ruby versions via rbenv
@@ -54,7 +55,6 @@ cask "zed"                 # GPU-accelerated code editor
 
 cask "iterm2"              # terminal emulator
 cask "docker-desktop"      # containers for local services
-cask "raycast"             # launcher + window mgmt + clipboard
 cask "tableplus"           # database GUI
 cask "github"              # GitHub Desktop
 cask "postman"             # API testing

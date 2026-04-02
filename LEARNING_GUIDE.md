@@ -361,17 +361,6 @@ zed .                          # open current directory
 
 Key shortcuts mirror VS Code (`Cmd+P`, `Cmd+Shift+P`). Built-in AI assistant and collaboration features.
 
-### Raycast — Launcher (Nice-to-Have)
-
-A Spotlight replacement with extras. Not essential to get started, but convenient once you're settled in:
-
-- **`Option+Space`** — open Raycast
-- Type an app name to launch it
-- `clip` — clipboard history
-- `window` — manage window layouts
-
-The Raycast Store has extensions for Jira, GitHub, Linear, etc. Worth exploring later.
-
 ### TablePlus — Database GUI
 
 Visual interface for Postgres, MySQL, SQLite, and more:
@@ -608,4 +597,3 @@ Start with the tools that give you the biggest daily productivity gains:
 | 10 | **TablePlus + SQL** | Pull your own data directly — a PM superpower |
 | 11 | **awscli** | Query S3, Lambda, and EC2 without bothering an engineer |
 | 12 | **fnm / rbenv** | Only relevant when working on Node or Ruby projects |
-| 13 | **Raycast** | Nice-to-have Spotlight replacement — explore once you're comfortable |
