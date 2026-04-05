@@ -7,7 +7,18 @@ link() {
   local src="$1"
   local dest="$2"
   mkdir -p "$(dirname "$dest")"
-  if [ -e "$dest" ] || [ -L "$dest" ]; then
+  if [ -L "$dest" ]; then
+    # Already points to our dotfiles — no backup needed, just replace
+    if [ "$(readlink "$dest")" = "$src" ]; then
+      echo "already linked $dest -> $src"
+      return
+    fi
+    # Symlink to somewhere else — copy the real content, then remove
+    if [ -e "$dest" ]; then
+      cp -L "$dest" "${dest}.bak.$(date +%s)"
+    fi
+    rm "$dest"
+  elif [ -e "$dest" ]; then
     mv "$dest" "${dest}.bak.$(date +%s)"
   fi
   ln -s "$src" "$dest"

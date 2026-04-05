@@ -66,7 +66,9 @@ bash ./install.sh
 
 ## Behavior & Safety
 
-- Existing destination files are moved to a timestamped backup: `file -> file.bak.<epoch>`
+- If a destination file already symlinks to the correct dotfiles source, the installer skips it (idempotent re-runs).
+- If a destination is a symlink to somewhere else, its resolved content is copied to a timestamped backup (`file.bak.<epoch>`) before relinking.
+- If a destination is a regular file, it is moved to a timestamped backup (`file.bak.<epoch>`).
 - Symlinks are created with `ln -s` so the source repo remains authoritative.
 - See the implementation of [`link()`](install.sh) for exact behavior.
 

@@ -569,7 +569,7 @@ This dotfiles repo configures your shell in two stages:
 
 To customize, edit these files and open a new terminal to see changes.
 
-If the installer leaves backup files behind while relinking dotfiles, use the `cleanup-bak` shell helper:
+The installer is idempotent — re-running it skips files that already point to the correct source. If a real file or foreign symlink exists, its content is copied to a timestamped backup before relinking. To clean up old backups, use the `cleanup-bak` shell helper:
 
 ```sh
 cleanup-bak                  # prints and deletes each backup file
