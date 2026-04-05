@@ -24,6 +24,9 @@ link "$DOTFILES_DIR/gitconfig" "$HOME/.gitconfig"
 # Starship config
 link "$DOTFILES_DIR/config/starship.toml" "$HOME/.config/starship.toml"
 
+# Claude Code
+link "$DOTFILES_DIR/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+
 # Homebrew
 if ! command -v brew >/dev/null 2>&1; then
   echo "Installing Homebrew..."

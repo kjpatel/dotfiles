@@ -160,3 +160,5 @@ dotup() {
   source "$HOME/.zshrc"
   echo "Done."
 }
+
+. "$HOME/.local/bin/env"

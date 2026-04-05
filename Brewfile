@@ -34,6 +34,7 @@ brew "supabase/tap/supabase" # Supabase CLI
 
 brew "uv"           # fast Python package manager & venv tool (used by Granite Harbor)
 brew "python@3.14"  # scripting, tooling, experimentation (includes venv)
+brew "uv"           # replaces pip, poetry, and pyenv in one tool for python
 brew "rbenv"        # Ruby version manager
 brew "ruby-build"   # Install Ruby versions via rbenv
 brew "fnm"          # Node version manager
