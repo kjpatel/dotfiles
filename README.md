@@ -154,6 +154,15 @@ Pull the latest dotfiles, run `brew bundle`, and re-source your shell config in 
 dotup
 ```
 
+### `swlogs` — Tail Sweep Worker Logs
+
+Tail all parallel sweep worker logs from Granite Harbor backtest sweeps. Automatically finds the most recent `sweep_logs_*` directory in `$TMPDIR`, or accepts an explicit path.
+
+```sh
+swlogs              # auto-detect latest sweep logs
+swlogs /tmp/sweep_logs_20260405
+```
+
 ## Revert / Uninstall
 
 To revert changes made by the installer:

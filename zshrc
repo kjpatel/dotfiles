@@ -149,6 +149,19 @@ cleanup-bak() {
   done
 }
 
+swlogs() {
+  # Tail parallel sweep worker logs (Granite Harbor backtest sweeps).
+  # Finds the most recent sweep_logs_* dir, or accepts an explicit path.
+  local dir="${1:-$(ls -td ${TMPDIR:-/tmp}/sweep_logs_* 2>/dev/null | head -1)}"
+  if [[ -z "$dir" || ! -d "$dir" ]]; then
+    echo "No sweep logs found. Pass a directory or run a parallel sweep first." >&2
+    return 1
+  fi
+  local count=$(ls "$dir"/worker_*.log 2>/dev/null | wc -l | tr -d ' ')
+  echo "Tailing $count worker logs in $dir"
+  tail -f "$dir"/worker_*.log
+}
+
 dotup() {
   # Pull latest dotfiles, run brew bundle, and re-source zshrc
   local dotdir="${DOTFILES_DIR:-$HOME/.dotfiles}"

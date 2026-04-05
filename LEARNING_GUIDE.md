@@ -543,6 +543,15 @@ dotup
 
 Useful when you push dotfile changes from another machine or update the Brewfile.
 
+### `swlogs` — Tail Sweep Worker Logs
+
+Tail all parallel sweep worker logs from Granite Harbor backtest sweeps. It auto-detects the most recent `sweep_logs_*` directory in `$TMPDIR`, or you can pass an explicit path:
+
+```sh
+swlogs              # auto-detect latest sweep logs
+swlogs /tmp/sweep_logs_20260405
+```
+
 ---
 
 ## Understanding Your Shell Config
@@ -560,7 +569,7 @@ This dotfiles repo configures your shell in two stages:
 - Sets VS Code as default `$EDITOR`
 - Exports `CLICOLOR=1` for colorized `ls` on macOS
 - Aliases: `ll` (long listing), `la` (hidden files), `l` (quick listing)
-- Shell helpers: `gcma`, `gpr`, `proj`, `port`, `cleanup-bak`, `dotup`
+- Shell helpers: `gcma`, `gpr`, `proj`, `port`, `cleanup-bak`, `swlogs`, `dotup`
 
 **[config/starship.toml](config/starship.toml)** controls your prompt:
 - Left side: directory, git branch, git status, command duration
