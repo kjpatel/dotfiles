@@ -29,6 +29,12 @@ brew "awscli"     # AWS CLI (S3, EC2, IAM, and more)
 brew "supabase/tap/supabase" # Supabase CLI
 
 # =====================================
+# Networking
+# =====================================
+
+cask "tailscale"  # WireGuard mesh VPN — SSH into Mac Studio from anywhere
+
+# =====================================
 # Language Runtimes & Package Managers
 # =====================================
 
