@@ -3,3 +3,7 @@
 Host studio
   HostName 100.74.48.114
   User kushan
+
+Host laptop
+  HostName 100.117.80.20
+  User kushanpatel
