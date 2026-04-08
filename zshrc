@@ -174,4 +174,5 @@ dotup() {
   echo "Done."
 }
 
-. "$HOME/.local/bin/env"
+# Source local env (e.g., rustup) if it exists
+[ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
