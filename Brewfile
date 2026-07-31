@@ -32,20 +32,26 @@ brew "supabase/tap/supabase" # Supabase CLI
 # Networking
 # =====================================
 
-cask "tailscale"  # WireGuard mesh VPN — SSH into Mac Studio from anywhere
+cask "tailscale-app"  # WireGuard mesh VPN — SSH into Mac Studio from anywhere
 
 # =====================================
 # Language Runtimes & Package Managers
 # =====================================
 
-brew "uv"           # fast Python package manager & venv tool (used by Granite Harbor)
 brew "python@3.14"  # scripting, tooling, experimentation (includes venv)
-brew "uv"           # replaces pip, poetry, and pyenv in one tool for python
+brew "uv"           # fast Python package/venv tool; replaces pip, poetry, and pyenv
 brew "rbenv"        # Ruby version manager
 brew "ruby-build"   # Install Ruby versions via rbenv
 brew "fnm"          # Node version manager
 brew "node"         # Node.js runtime
 brew "pnpm"         # fast, disk-efficient package manager
+
+# =====================================
+# Native Libraries
+# =====================================
+# Not used directly — Python/R packages link against these at build time.
+
+brew "cairo"        # 2D vector graphics; backs matplotlib, pycairo, cairosvg
 
 # =====================================
 # Editors & IDEs

@@ -181,6 +181,9 @@ To revert changes made by the installer:
 - [zshrc](zshrc) initializes `rbenv`, `direnv`, and `starship`, exports `CLICOLOR`, and defines `ll`/`la`/`l` aliases.
 - AWS CLI (`awscli`) is included for interacting with AWS services (S3, EC2, IAM, etc.). Configure with `aws configure`.
 - Supabase CLI is included for local development and managing Supabase projects.
+- `uv` is the Python package/venv tool — it replaces `pip`, `poetry`, and `pyenv`.
+- `cairo` is a native graphics library with no CLI of its own — Python plotting/imaging packages (`matplotlib`, `pycairo`, `cairosvg`) link against it at build time.
+- Tailscale (cask `tailscale-app`) provides the mesh VPN behind the `studio` and `laptop` SSH hosts in [config/ssh/config](config/ssh/config).
 - `pnpm` is included as a fast, disk-efficient alternative to `npm`.
 - Editors: VS Code (primary), Sublime Text, Cursor, and Zed are all installed via casks.
 - Hack Nerd Font is installed for proper Starship prompt glyphs — set it as your terminal font.

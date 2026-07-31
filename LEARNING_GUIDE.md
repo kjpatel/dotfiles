@@ -206,6 +206,25 @@ deactivate                     # leave the virtual environment
 
 **PM tip**: Always use a venv for each project. It prevents package conflicts and makes projects reproducible.
 
+### `uv` — Fast Python Package & Project Manager
+
+`uv` does the job of `pip`, `poetry`, and `pyenv` in a single tool, and it is
+fast enough that creating a fresh environment stops feeling like a decision.
+For new work, prefer it over the `venv` + `pip` flow above:
+
+```sh
+uv venv                        # create .venv in the current directory
+uv pip install package-name    # install into it (no activate needed)
+uv run script.py               # run a script in the project environment
+uv add package-name            # add a dependency to pyproject.toml
+uv sync                        # install exactly what the lockfile pins
+uv python install 3.13         # install a Python version, pyenv-style
+uv tool run ruff               # run a CLI tool without installing it globally
+```
+
+**PM tip**: `uv run` reads `pyproject.toml` and builds the environment on
+demand, so cloning a repo and running one command is often the whole setup.
+
 ### `fnm` — Node Version Manager
 
 Manages multiple Node.js versions. Already configured in [zshrc](zshrc) with `--use-on-cd`, which auto-switches Node versions when a project has a `.node-version` or `.nvmrc` file.
@@ -240,6 +259,22 @@ rbenv global 3.3.0             # set the default version
 rbenv local 3.3.0              # set version for the current project
 ruby -v                        # verify the active version
 ```
+
+### `cairo` — Native Graphics Library
+
+Nothing to learn here — there is no `cairo` command. It is a 2D vector
+graphics library that other software links against to draw shapes, text, and
+images out to PNG, PDF, SVG, or the screen. It is in the Brewfile because
+Python plotting and image packages (`matplotlib`, `pycairo`, `cairosvg`) expect
+it to exist on the system when they build.
+
+Worth knowing for one reason: when `pip install matplotlib` or similar fails
+with a message about a missing library or header, a native dependency like this
+is usually the cause, and installing it via Homebrew is the fix. `brew uses
+--installed cairo` will report nothing depending on it, because Homebrew only
+tracks links between Homebrew formulae — not the Python packages inside your
+virtualenvs that actually use it. Do not read that emptiness as "safe to
+remove."
 
 ---
 
@@ -293,6 +328,30 @@ supabase migration new name    # create a new migration
 supabase status                # check local service status
 supabase link --project-ref x  # link to a remote Supabase project
 ```
+
+---
+
+## Networking
+
+### `tailscale-app` — Mesh VPN
+
+A WireGuard-based mesh VPN. Every device you sign in stays reachable at a
+stable name regardless of which network it is on — the point being SSH into the
+Mac Studio from anywhere without port forwarding or a public IP.
+
+The Homebrew cask is `tailscale-app`; it used to be `tailscale`, and the old
+name is now an alias that Homebrew will eventually drop.
+
+```sh
+tailscale status               # list devices on your tailnet and their state
+tailscale ip -4                # your device's tailnet IP
+tailscale ping studio          # check reachability without leaving the tailnet
+ssh studio                     # works from anywhere once both devices are up
+```
+
+**PM tip**: [config/ssh/config](config/ssh/config) defines `studio` and
+`laptop` against their tailnet IPs, so `ssh studio` keeps working across coffee
+shops, hotel wifi, and tethering — no port forwarding or public IP involved.
 
 ---
 
@@ -535,13 +594,20 @@ port 8080                    # check if your API server is up
 
 ### `dotup` — Update Dotfiles
 
-Pull the latest dotfiles, run `brew bundle`, and re-source your shell — all in one command:
+Pull the latest dotfiles, re-link them, run `brew bundle`, and re-source your
+shell — all in one command:
 
 ```sh
 dotup
 ```
 
 Useful when you push dotfile changes from another machine or update the Brewfile.
+
+The re-link step calls `install.sh --links-only`, and it matters more than it
+sounds: a `git pull` can introduce a *new* dotfile, and without re-linking the
+file lands in the repo and is never symlinked into `$HOME`. That is exactly how
+`zshenv` would have arrived on an already-configured machine and silently done
+nothing. `--links-only` skips the Homebrew work so a routine update stays fast.
 
 ### `swlogs` — Tail Sweep Worker Logs
 
@@ -556,7 +622,19 @@ swlogs /tmp/sweep_logs_20260405
 
 ## Understanding Your Shell Config
 
-This dotfiles repo configures your shell in two stages:
+This dotfiles repo configures your shell in three stages:
+
+**[zshenv](zshenv)** runs for *every* zsh — login, non-login, interactive, and
+scripts. It is the earliest hook zsh offers, and the only one that GUI-launched
+shells see:
+- Establishes the base `PATH` via `path_helper`, then Homebrew's
+- Reads the Claude Code OAuth token out of the macOS Keychain
+
+  Why this file exists at all: apps that spawn shells (Conductor, IDEs,
+  LaunchAgents) start *non-login* shells, which never read `zprofile` — not
+  this repo's, and not macOS's own `/etc/zprofile`, where `path_helper`
+  normally puts `/bin` and `/usr/bin`. Without `zshenv`, such a shell has no
+  usable `PATH` and cannot even find `ls`.
 
 **[zprofile](zprofile)** runs once at login:
 - Sets up Homebrew's shell environment (`brew shellenv`)
@@ -581,10 +659,15 @@ To customize, edit these files and open a new terminal to see changes.
 The installer is idempotent — re-running it skips files that already point to the correct source. If a real file or foreign symlink exists, its content is copied to a timestamped backup before relinking. To clean up old backups, use the `cleanup-bak` shell helper:
 
 ```sh
+cleanup-bak --dry-run        # list what would be deleted
 cleanup-bak                  # prints and deletes each backup file
 ```
 
-This only removes backups for the exact files `install.sh` manages (`.zprofile`, `.zshrc`, `.gitconfig`, `starship.toml`).
+The file list is read out of `install.sh` at run time rather than duplicated in
+the function, so adding a dotfile to the installer extends the cleanup
+automatically. It used to name four paths by hand while `install.sh` linked
+seven, and backups of `~/.ssh/config` and `~/.claude/CLAUDE.md` were silently
+never cleaned.
 
 ---
 
