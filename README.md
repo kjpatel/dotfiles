@@ -141,10 +141,15 @@ port 8080                     # check port 8080
 Remove the `*.bak.*` backup files that `install.sh` creates when relinking dotfiles.
 
 ```sh
+cleanup-bak --dry-run         # list what would be deleted
 cleanup-bak                   # prints and deletes each backup file
 ```
 
-Only targets the exact files `install.sh` would back up (`.zprofile`, `.zshrc`, `.gitconfig`, `starship.toml`).
+The file list is read out of `install.sh` at run time rather than duplicated
+here, so adding a dotfile to the installer extends the cleanup automatically.
+It previously named four paths by hand while `install.sh` linked seven, and
+backups of `~/.ssh/config` and `~/.claude/CLAUDE.md` were silently never
+cleaned.
 
 ### `dotup` — Update Dotfiles
 

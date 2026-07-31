@@ -143,10 +143,40 @@ port() {
 }
 
 cleanup-bak() {
-  # Remove backup files created by install.sh
-  for f in ~/.zprofile ~/.zshrc ~/.gitconfig ~/.config/starship.toml; do
-    find "$(dirname "$f")" -maxdepth 1 -name "$(basename "$f").bak.*" -print -delete
+  # Remove backup files created by install.sh.
+  #
+  # The list of files is read OUT of install.sh rather than duplicated here.
+  # A hardcoded copy silently drifts: this function used to name four paths
+  # while install.sh linked seven, so backups of ~/.ssh/config and
+  # ~/.claude/CLAUDE.md were never cleaned and nothing said so. Parsing the
+  # source of truth means adding a dotfile updates both by construction.
+  #
+  # Pass --dry-run to list what would be deleted without deleting it.
+  local dotdir="${DOTFILES_DIR:-$HOME/.dotfiles}"
+  local dry=0
+  [ "${1:-}" = "--dry-run" ] && dry=1
+
+  if [ ! -r "$dotdir/install.sh" ]; then
+    echo "cleanup-bak: cannot read $dotdir/install.sh" >&2
+    return 1
+  fi
+
+  local dest hits found=0
+  # Pull the second argument of each `link ...` line and expand $HOME.
+  for dest in $(sed -n 's/^link "[^"]*" "\([^"]*\)".*/\1/p' "$dotdir/install.sh"); do
+    dest="${dest/\$HOME/$HOME}"
+    [ -d "$(dirname "$dest")" ] || continue
+    hits=$(find "$(dirname "$dest")" -maxdepth 1 -name "$(basename "$dest").bak.*" 2>/dev/null)
+    [ -z "$hits" ] && continue
+    found=1
+    if [ "$dry" -eq 1 ]; then
+      echo "$hits" | sed 's/^/would delete /'
+    else
+      echo "$hits" | while read -r h; do rm -f "$h" && echo "deleted $h"; done
+    fi
   done
+  [ "$found" -eq 0 ] && echo "no installer backups found"
+  return 0
 }
 
 swlogs() {

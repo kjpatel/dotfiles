@@ -7,3 +7,7 @@ env
 *.key
 id_rsa*
 id_ed25519*
+
+# Claude Code global instructions: machine-local, never synced.
+# They accrue project and personal context and this repo is public.
+.claude/

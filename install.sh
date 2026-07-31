@@ -47,9 +47,6 @@ link "$DOTFILES_DIR/config/starship.toml" "$HOME/.config/starship.toml"
 # SSH config
 link "$DOTFILES_DIR/config/ssh/config" "$HOME/.ssh/config"
 
-# Claude Code
-link "$DOTFILES_DIR/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
-
 if [ "$LINKS_ONLY" -eq 1 ]; then
   echo "Links done (--links-only; skipping Homebrew)."
   exit 0
