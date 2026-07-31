@@ -1,0 +1,9 @@
+# Never commit credentials. This repository is public.
+*.env
+.env
+env
+.secrets
+*.pem
+*.key
+id_rsa*
+id_ed25519*
