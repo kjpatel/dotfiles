@@ -186,6 +186,8 @@ To revert changes made by the installer:
 - Tailscale (cask `tailscale-app`) provides the mesh VPN behind the `studio` and `laptop` SSH hosts in [config/ssh/config](config/ssh/config).
 - `pnpm` is included as a fast, disk-efficient alternative to `npm`.
 - Editors: VS Code (primary), Sublime Text, Cursor, and Zed are all installed via casks.
+- Google Chrome and Granola (AI meeting notes) are installed via casks; both auto-update themselves, so `brew upgrade` will skip them.
+- Conductor runs parallel Claude Code sessions; its SSH entries load via the `Include ~/.ssh/conductor_config` line at the top of [config/ssh/config](config/ssh/config), which is generated per machine and not tracked here.
 - Hack Nerd Font is installed for proper Starship prompt glyphs — set it as your terminal font.
 
 ## Files & Symbols

@@ -67,6 +67,7 @@ cask "zed"                 # GPU-accelerated code editor
 # =====================================
 
 cask "iterm2"              # terminal emulator
+cask "google-chrome"       # browser + devtools
 cask "docker-desktop"      # containers for local services
 cask "tableplus"           # database GUI
 cask "github"              # GitHub Desktop
@@ -79,6 +80,7 @@ cask "cleanshot"           # screenshots / recording
 
 cask "claude"      # Anthropic's desktop app
 cask "claude-code" # Anthropic's CLI
+cask "conductor"   # parallel Claude Code sessions (see config/ssh/config)
 cask "codex"       # OpenAI's CLI
 cask "chatgpt"     # OpenAI's desktop app
 
@@ -89,3 +91,4 @@ cask "chatgpt"     # OpenAI's desktop app
 cask "font-hack-nerd-font" # proper glyphs for starship
 cask "font-lato"           # Lato font family
 cask "obsidian"            # local-first notes
+cask "granola"             # AI meeting notes

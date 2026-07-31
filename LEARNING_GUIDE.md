@@ -483,6 +483,16 @@ Cmd+Shift+F    — global search
 
 Invest time in linking notes. The graph view becomes valuable once you have 50+ connected notes.
 
+### Granola — AI Meeting Notes
+
+Transcribes meetings from your Mac's audio and turns your own rough notes into
+a structured summary afterward. It listens without joining as a visible bot
+participant, so nothing shows up in the attendee list.
+
+**PM tip**: type sparse fragments during the call rather than full sentences —
+the summary pass fills in the surrounding context, and the fragments are what
+keep it anchored to what you actually cared about.
+
 ### CleanShot — Screenshots & Recording
 
 - `Ctrl+Shift+3` (configurable) — screenshot with annotation tools
@@ -524,6 +534,20 @@ claude --help                  # see all options
 ```
 
 Useful for: writing boilerplate, understanding unfamiliar codebases, writing tests, refactoring, and automating tedious tasks.
+
+### Conductor
+
+A desktop app for running several Claude Code sessions in parallel, each in its
+own git worktree, so separate pieces of work do not collide in one checkout.
+
+It ties into this repo in one place worth knowing about: [config/ssh/config](config/ssh/config)
+opens with `Include ~/.ssh/conductor_config`, so Conductor's own SSH entries
+load alongside the managed ones. That included file is not tracked here — it is
+generated on the machine, and the include is written to tolerate its absence.
+
+The cask is marked `auto_updates`, so the app updates itself and `brew upgrade`
+will skip it. The Brewfile entry guarantees it gets installed on a new machine,
+not that Homebrew tracks its version.
 
 ### ChatGPT Desktop App
 
