@@ -163,10 +163,19 @@ swlogs() {
 }
 
 dotup() {
-  # Pull latest dotfiles, run brew bundle, and re-source zshrc
+  # Pull latest dotfiles, re-link, run brew bundle, and re-source zshrc.
   local dotdir="${DOTFILES_DIR:-$HOME/.dotfiles}"
   echo "Pulling latest dotfiles..."
   git -C "$dotdir" pull || { echo "git pull failed" >&2; return 1; }
+  # Re-link before brew: a pull can introduce a NEW dotfile, and without this
+  # the file arrives in the repo and is never symlinked into $HOME. That is how
+  # zshenv would have silently failed to activate on an already-set-up machine.
+  # --links-only keeps this fast; install.sh is idempotent, so an unchanged
+  # link just prints "already linked".
+  if [ -x "$dotdir/install.sh" ]; then
+    echo "Re-linking dotfiles..."
+    "$dotdir/install.sh" --links-only || { echo "install.sh failed" >&2; return 1; }
+  fi
   echo "Running brew bundle..."
   brew bundle --file "$dotdir/Brewfile"
   echo "Re-sourcing zshrc..."

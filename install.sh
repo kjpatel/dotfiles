@@ -3,6 +3,11 @@ set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
+# --links-only: create the symlinks and stop, skipping Homebrew. `dotup` uses
+# this so a routine update stays fast; a full run is for a new machine.
+LINKS_ONLY=0
+[ "${1:-}" = "--links-only" ] && LINKS_ONLY=1
+
 link() {
   local src="$1"
   local dest="$2"
@@ -44,6 +49,11 @@ link "$DOTFILES_DIR/config/ssh/config" "$HOME/.ssh/config"
 
 # Claude Code
 link "$DOTFILES_DIR/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+
+if [ "$LINKS_ONLY" -eq 1 ]; then
+  echo "Links done (--links-only; skipping Homebrew)."
+  exit 0
+fi
 
 # Homebrew
 if ! command -v brew >/dev/null 2>&1; then
