@@ -1,4 +1,4 @@
-Include /Users/kushanpatel/.ssh/conductor_config
+Include ~/.ssh/conductor_config
 
 # SSH Config — managed via dotfiles
 
