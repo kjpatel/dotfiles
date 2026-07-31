@@ -26,6 +26,10 @@ link() {
 }
 
 # Shell
+# zshenv first: it is the only one zsh reads for NON-login shells, which is what
+# GUI apps (Conductor, IDEs) spawn. Without it such a shell has no PATH at all
+# and cannot even find `ls`.
+link "$DOTFILES_DIR/zshenv" "$HOME/.zshenv"
 link "$DOTFILES_DIR/zprofile" "$HOME/.zprofile"
 link "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
 
@@ -53,4 +57,14 @@ brew bundle --file "$DOTFILES_DIR/Brewfile"
 brew upgrade --cask
 brew cleanup
 
+echo
 echo "Done. Restart your terminal."
+echo
+echo "One manual step remains — the login keychain does not sync over iCloud,"
+echo "so this machine has no Claude Code token yet. Copy the SAME token used on"
+echo "your other Macs (see the comment in zshenv for why one token, not one per"
+echo "machine) and store it with:"
+echo
+echo "  security add-generic-password -U -a \"$USER\" -s claude-code-oauth-token -w"
+echo
+echo "Until then Claude Code falls back to normal interactive login."
