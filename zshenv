@@ -41,9 +41,14 @@ if [[ -z "$__DOTFILES_ENV_SET" ]]; then
   # it bills per token instead of against the subscription.
   #
   # PER-MACHINE SETUP: the login keychain does NOT sync over iCloud (only the
-  # data protection keychain does, and the `security` CLI cannot write to it),
-  # so cloning these dotfiles to a new Mac carries the lookup but not the
-  # token. Copy the SAME token onto each machine with:
+  # data protection keychain does, and the `security` CLI can neither write to
+  # nor read from it), so cloning these dotfiles to a new Mac carries the
+  # lookup but not the token.
+  #
+  # The token is also saved in the macOS Passwords app, which DOES sync — that
+  # copy exists purely so a new machine can retrieve the value instead of
+  # minting a fresh one (see above for why minting again is risky). The shell
+  # cannot read it; you copy it across by hand. Copy the SAME token with:
   #   security add-generic-password -U -a "$USER" -s claude-code-oauth-token -w
   # (-w with no value prompts, keeping it out of shell history.)
   # Until you do, the export below resolves to empty and Claude Code falls back

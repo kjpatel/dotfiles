@@ -68,9 +68,10 @@ echo
 echo "Done. Restart your terminal."
 echo
 echo "One manual step remains — the login keychain does not sync over iCloud,"
-echo "so this machine has no Claude Code token yet. Copy the SAME token used on"
-echo "your other Macs (see the comment in zshenv for why one token, not one per"
-echo "machine) and store it with:"
+echo "so this machine has no Claude Code token yet. Look it up in the macOS"
+echo "Passwords app (it syncs; the shell cannot read that copy) and store the"
+echo "SAME token here — do not mint a new one, see the comment in zshenv for"
+echo "why:"
 echo
 echo "  security add-generic-password -U -a \"$USER\" -s claude-code-oauth-token -w"
 echo
