@@ -27,6 +27,7 @@ brew "direnv"     # per-project environment variables (.envrc)
 
 brew "awscli"     # AWS CLI (S3, EC2, IAM, and more)
 brew "supabase/tap/supabase" # Supabase CLI
+cask "gcloud-cli" # Google Cloud CLI (gcloud, gsutil, bq)
 
 # =====================================
 # Networking

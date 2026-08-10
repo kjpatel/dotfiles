@@ -329,6 +329,19 @@ supabase status                # check local service status
 supabase link --project-ref x  # link to a remote Supabase project
 ```
 
+### `gcloud-cli` — Google Cloud CLI
+
+Interact with Google Cloud Platform from the terminal. Installs `gcloud` plus the `gsutil` (Cloud Storage) and `bq` (BigQuery) tools:
+
+```sh
+gcloud init                    # authenticate and pick a default project (do this first)
+gcloud auth list               # confirm who you're authenticated as
+gcloud config list             # show current project/region settings
+gcloud projects list           # list projects you can access
+gsutil ls                      # list Cloud Storage buckets
+bq ls                          # list BigQuery datasets
+```
+
 ---
 
 ## Networking
@@ -711,5 +724,5 @@ Start with the tools that give you the biggest daily productivity gains:
 | 8 | **ripgrep + bat + fd** | Replace grep/cat/find for a noticeably better terminal experience |
 | 9 | **direnv** | Once you have multiple projects, saves constant manual setup |
 | 10 | **TablePlus + SQL** | Pull your own data directly — a PM superpower |
-| 11 | **awscli** | Query S3, Lambda, and EC2 without bothering an engineer |
+| 11 | **awscli / gcloud** | Query cloud services (S3, Lambda, BigQuery) without bothering an engineer |
 | 12 | **fnm / rbenv** | Only relevant when working on Node or Ruby projects |

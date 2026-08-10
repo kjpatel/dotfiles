@@ -181,6 +181,7 @@ To revert changes made by the installer:
 - [zshrc](zshrc) initializes `rbenv`, `direnv`, and `starship`, exports `CLICOLOR`, and defines `ll`/`la`/`l` aliases.
 - AWS CLI (`awscli`) is included for interacting with AWS services (S3, EC2, IAM, etc.). Configure with `aws configure`.
 - Supabase CLI is included for local development and managing Supabase projects.
+- Google Cloud CLI (cask `gcloud-cli`) provides `gcloud`, `gsutil`, and `bq` for GCP. Authenticate with `gcloud init`.
 - `uv` is the Python package/venv tool — it replaces `pip`, `poetry`, and `pyenv`.
 - `cairo` is a native graphics library with no CLI of its own — Python plotting/imaging packages (`matplotlib`, `pycairo`, `cairosvg`) link against it at build time.
 - Tailscale (cask `tailscale-app`) provides the mesh VPN behind the `studio` and `laptop` SSH hosts in [config/ssh/config](config/ssh/config).
